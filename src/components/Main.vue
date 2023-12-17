@@ -1,12 +1,18 @@
 <script lang="ts">
-    import {ref, reactive} from 'vue';
+    import {ref, Ref} from 'vue';
+
+    interface Heart {
+        id: number;
+        left: string;
+        top: string;
+    }
 
     export default {
         setup() {
             let text = ref("Do You Love me?");
             let isClicked = ref(false);
-            const noButton = ref(null);
-            const hearts = reactive([]);
+            const noButton: Ref<HTMLElement | null> = ref(null);
+            const hearts: Ref<Heart[]> = ref([]);
             const changeText = (newText: string) => {
                 text.value = newText;
                 isClicked.value = true;
@@ -21,11 +27,10 @@
                     noButton.value.style.top = randomY + 'px';
                 }
             }
-
             const makeRain = () => {
                 for (let i = 0; i < 100; i++) {
                     setTimeout(() => {
-                        hearts.push({
+                        hearts.value.push({
                             id: Math.random(),
                             left: Math.random() * window.innerWidth + 'px',
                             top: Math.random() * window.innerHeight + 'px'
@@ -33,11 +38,11 @@
                     }, i * 100);
                 }
             }
-
             return {text, changeText, isClicked, noButton, moveButton, hearts, makeRain}
         }
     }
 </script>
+
 
 <template>
     <div class="container">
